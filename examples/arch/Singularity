@@ -25,7 +25,7 @@ Bootstrap: arch
     # Set locale. Use whatever you prefer instead of en_US.
     echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen
     # Add more locales as needed, eg:
-    # echo 'pl_PL.UTF-8 UTF-8' >> /etc/locale.gen
+    # echo 'de_DE.UTF-8 UTF-8' >> /etc/locale.gen
     locale-gen
     echo 'LANG=en_US.UTF-8' > /etc/locale.conf
     # Mind that Singularity's shell will use host's locale no matter what
@@ -38,7 +38,17 @@ Bootstrap: arch
     echo 'Server = https://archlinux.honkgong.info/$repo/os/$arch' >> /etc/pacman.d/mirrorlist
 
     # I need VIM and Bash completion. Specify your extra packages as needed.
-    pacman -Sy --noconfirm vim bash-completion
+    pacman -Sy --noconfirm sudo git fakeroot binutils make
+    echo "nobody ${HOSTNAME}= NOPASSWD: /usr/bin/halt,/usr/bin/poweroff,/usr/bin/reboot,/usr/bin/pacman" >> /etc/sudoers
+    git clone https://aur.archlinux.org/pikaur.git /tmp/pikaur
+    chgrp nobody /tmp/pikaur
+    chmod g+ws /tmp/pikaur
+    setfacl -m u::rwx,g::rwx /tmp/pikaur
+    setfacl -d --set u::rwx,g::rwx,o::- /tmp/pikaur
+    cd /tmp/pikaur
+    sudo -u nobody makepkg -si --noconfirm
+    sed -i "/^nobody ${HOSTNAME}= NOPASSWD: .*$/d" /etc/sudoers
+    rm -r /tmp/pikaur 
 
     # Remove the packages downloaded to image's Pacman cache dir.
     pacman -Sy --noconfirm pacman-contrib
