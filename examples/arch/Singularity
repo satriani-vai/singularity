@@ -41,7 +41,7 @@ From: archlinux
     echo 'Server = https://archlinux.honkgong.info/$repo/os/$arch' >> /etc/pacman.d/mirrorlist
 
     # Need pikaur to install from AUR as root
-    pacman -Sy --noconfirm sudo git fakeroot binutils make
+    pacman -Sy --noconfirm sudo git fakeroot binutils make gettext
     echo "nobody ${HOSTNAME}= NOPASSWD: /usr/bin/halt,/usr/bin/poweroff,/usr/bin/reboot,/usr/bin/pacman" >> /etc/sudoers
     git clone https://aur.archlinux.org/pikaur.git /tmp/pikaur
     chgrp nobody /tmp/pikaur
