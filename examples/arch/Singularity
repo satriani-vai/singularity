@@ -1,6 +1,8 @@
 # Copyright (c) 2015-2016, Maciej Sieczka, Gregory M. Kurtzer. All rights
 # reserved.
 #
+# Copyright (c) 2020, S. Alexander. All rights reserved.
+#
 # Copyright (c) 2017-2018, SyLabs, Inc. All rights reserved.
 # Copyright (c) 2017, SingularityWare, LLC. All rights reserved.
 #
@@ -37,7 +39,7 @@ Bootstrap: arch
     # Add any number of fail-over servers, eg:
     echo 'Server = https://archlinux.honkgong.info/$repo/os/$arch' >> /etc/pacman.d/mirrorlist
 
-    # I need VIM and Bash completion. Specify your extra packages as needed.
+    # Need pikaur to install from AUR as root
     pacman -Sy --noconfirm sudo git fakeroot binutils make
     echo "nobody ${HOSTNAME}= NOPASSWD: /usr/bin/halt,/usr/bin/poweroff,/usr/bin/reboot,/usr/bin/pacman" >> /etc/sudoers
     git clone https://aur.archlinux.org/pikaur.git /tmp/pikaur
